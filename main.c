@@ -3,5 +3,5 @@
 #include "exercices.h"
 
 int main(void) {
-	return ex1_5();
+	return ex1_7();
 }
