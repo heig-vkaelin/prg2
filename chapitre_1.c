@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "inttypes.h"
 
 #define INT_SIZE sizeof(int) * 8
 
@@ -122,16 +123,38 @@ int ex1_8() {
 }
 
 int ex1_10() {
-	int n = 255;
-	double x = 12.345;
-
 	/* Résultat attendu:
 	 * 0377
-	 * FF
-	 * +###255
-	 * 1.235e+001
+	 * * FF
+    * +###255
+    * 1.235e+001
 	 * 12.345
-	 * 12.3450
-	*/
+    * 12.3450
+	 */
+
+	int n = 255;
+	double x = 12.345;
+	printf("%04o\n", n);
+	printf("%X\n", n);
+	printf("%+07d\n", n); // # à la place de 0 ??
+	printf("%.3e\n", x);
+	printf("%.3f\n", x);
+	printf("%.4f\n", x);
+
+	return EXIT_SUCCESS;
+}
+
+int ex1_11() {
+	/* Résultat attendu:
+	 * i = 1
+	 * j = 4294967295
+	 */
+
+	size_t i = 1;
+	uint32_t j = UINT32_MAX;
+
+	printf("%llu\n", i); // Fait un message mais zu: unknown...
+	printf("%" PRIu32, j);
+
 	return EXIT_SUCCESS;
 }
