@@ -63,36 +63,75 @@ int ex1_6() {
 }
 
 short lowestOderSetBit(int n) {
-	unsigned short pos = 0;
-	while (pos < sizeof(n) * CHAR_BIT) {
-		if (getBit(pos, n)) {
-			return (short) pos;
+	short order;
+	if (n == 0) {
+		order = -1;
+	} else {
+		for (ushort pos = 0; pos < INT_SIZE; ++pos) {
+			// Si le bit courant est à 1
+			if (n & 1 << pos) { // ouf if (n >> pos & 1)
+				order = (short) pos;
+				break;
+			}
 		}
-		pos++;
 	}
-	return -1;
+	return order;
 }
 
 int ex1_7() {
-	printf("%d", lowestOderSetBit(256));
+	for (int n = 0; n <= 10; ++n) {
+		printf("lowestOrderSetBit(%d) = %hd\n", n, lowestOderSetBit(n));
+	}
 
 	return EXIT_SUCCESS;
 }
 
-void decimalToBinary(int32_t n, int8_t binary[]) {
-	int index = 32 - 1;
+#define INT32_T_SIZE sizeof(int32_t) * 8
 
-	while (index >= 0) {
-		binary[index] = (unsigned) n & 1u;
-		index--;
-		n = (unsigned) n >> 1u;
+void decimalToBinary(int32_t n, int8_t binary[]) {
+	for (size_t i = INT32_T_SIZE; i > 0; --i) {
+		binary[i - 1] = n & 1;
+		n >>= 1;
 	}
 }
 
+void display_ex1_8(const int8_t binary[], size_t size) {
+	for (size_t i = 0; i < size; ++i) {
+		printf("%d", binary[i]);
+	}
+	printf("\n");
+}
+
+void test_ex1_8(int32_t n) {
+	int8_t binary[INT32_T_SIZE];
+	decimalToBinary(n, binary);
+	display_ex1_8(binary, INT32_T_SIZE);
+}
+
 int ex1_8() {
-	int8_t binary[32];
+	printf("12345678901234567890123456789012\n");
+	printf("--------------------------------\n");
+	test_ex1_8(0);
+	test_ex1_8(1);
+	test_ex1_8(10);
+	test_ex1_8(-1);
+	test_ex1_8(INT32_MIN);
+	test_ex1_8(INT32_MAX);
 
-	decimalToBinary(7, binary);
+	return EXIT_SUCCESS;
+}
 
+int ex1_10() {
+	int n = 255;
+	double x = 12.345;
+
+	/* Résultat attendu:
+	 * 0377
+	 * FF
+	 * +###255
+	 * 1.235e+001
+	 * 12.345
+	 * 12.3450
+	*/
 	return EXIT_SUCCESS;
 }
