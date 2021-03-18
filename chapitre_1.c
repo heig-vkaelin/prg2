@@ -134,12 +134,12 @@ int ex1_10() {
 
 	int n = 255;
 	double x = 12.345;
-	printf("%04o\n", n);
+	printf("%#o\n", n);
 	printf("%X\n", n);
-	printf("%+07d\n", n); // # à la place de 0 ??
+	printf("%s%d\n", "+###", n);
 	printf("%.3e\n", x);
-	printf("%.3f\n", x);
-	printf("%.4f\n", x);
+	printf("%g\n", x);  // ou printf("%.3f\n", x)
+	printf("%#g\n", x); // ou printf("%.4f\n", x)
 
 	return EXIT_SUCCESS;
 }
