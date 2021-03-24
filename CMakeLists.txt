@@ -4,4 +4,4 @@ project(prg2 C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_FLAGS "-Wall -Wextra -Wconversion -Wsign-conversion -pedantic")
 
-add_executable(prg2 main.c chapitre_1.c exercices.h)
+add_executable(prg2 main.c chapitre_1.c chapitre_2.c)

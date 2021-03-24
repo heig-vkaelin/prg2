@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "inttypes.h"
+#include <inttypes.h>
 
 #define INT_SIZE sizeof(int) * 8
 

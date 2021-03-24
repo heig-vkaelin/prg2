@@ -11,5 +11,7 @@ int ex1_7();
 int ex1_8();
 int ex1_10();
 int ex1_11();
+int ex2_1();
+int ex2_2();
 
 #endif // PRG2_EXERCICES_H
