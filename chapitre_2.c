@@ -10,7 +10,7 @@
 // #define PRINT_ADDRESS(ADR) printf("0x%" PRIxPTR "\n", (intptr_t) (ADR))
 #define PRINT_ADDRESS(ADR) printf("%#x\n", (unsigned) (intptr_t) (ADR))
 
-int ex2_1() {
+int ex2_1(void) {
 	int n = 1;
 	int *ptr = &n;
 
@@ -36,7 +36,7 @@ void test_ex2_2(double x) {
 	printf("carre(%g) = %g, cube(%g) = %g\n", x, carre, x, cube);
 }
 
-int ex2_2() {
+int ex2_2(void) {
 	test_ex2_2(-1);
 	test_ex2_2(0);
 	test_ex2_2(1);

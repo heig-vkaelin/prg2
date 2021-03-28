@@ -5,15 +5,15 @@
 #ifndef PRG2_EXERCICES_H
 #define PRG2_EXERCICES_H
 
-int ex1_5();
-int ex1_6();
-int ex1_7();
-int ex1_8();
-int ex1_10();
-int ex1_11();
-int ex1_12();
-int ex1_13();
-int ex2_1();
-int ex2_2();
+int ex1_5(void);
+int ex1_6(void);
+int ex1_7(void);
+int ex1_8(void);
+int ex1_10(void);
+int ex1_11(void);
+int ex1_12(void);
+int ex1_13(void);
+int ex2_1(void);
+int ex2_2(void);
 
 #endif // PRG2_EXERCICES_H

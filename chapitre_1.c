@@ -17,7 +17,7 @@ ushort getBit(ushort pos, int n) {
 	return n >> pos & 1;
 }
 
-int ex1_5() {
+int ex1_5(void) {
 	for (ushort pos = 0; pos < INT_SIZE; ++pos) {
 		printf("bit %hu = %hu\n", pos, getBit(pos, 10));
 	}
@@ -45,7 +45,7 @@ int *setBit(ushort pos, ushort bitValue, int *n) {
 	return n;
 }
 
-int ex1_6() {
+int ex1_6(void) {
 	int n = 0;
 	printf("n = %d\n", n);
 	printf("n = %d\n", *setBit(0, 1, &n));
@@ -79,7 +79,7 @@ short lowestOderSetBit(int n) {
 	return order;
 }
 
-int ex1_7() {
+int ex1_7(void) {
 	for (int n = 0; n <= 10; ++n) {
 		printf("lowestOrderSetBit(%d) = %hd\n", n, lowestOderSetBit(n));
 	}
@@ -109,7 +109,7 @@ void test_ex1_8(int32_t n) {
 	display_ex1_8(binary, INT32_T_SIZE);
 }
 
-int ex1_8() {
+int ex1_8(void) {
 	printf("12345678901234567890123456789012\n");
 	printf("--------------------------------\n");
 	test_ex1_8(0);
@@ -122,7 +122,7 @@ int ex1_8() {
 	return EXIT_SUCCESS;
 }
 
-int ex1_10() {
+int ex1_10(void) {
 	/* Résultat attendu:
 	 * 0377
 	 * * FF
@@ -146,7 +146,7 @@ int ex1_10() {
 
 #define PRINT_UNSIGNED(i) printf(#i " = %" PRIuMAX "\n", (uintmax_t) (i))
 
-int ex1_11() {
+int ex1_11(void) {
 	/* Résultat attendu:
 	 * i = 1
 	 * j = 4294967295
@@ -161,7 +161,7 @@ int ex1_11() {
 	return EXIT_SUCCESS;
 }
 
-int ex1_12() {
+int ex1_12(void) {
 	int n;
 	char c;
 
@@ -176,7 +176,7 @@ int ex1_12() {
 
 #define TAILLE_NOM 20
 
-int ex1_13() {
+int ex1_13(void) {
 	char nom[TAILLE_NOM + 1];
 	char format[10];
 
