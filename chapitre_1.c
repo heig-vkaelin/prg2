@@ -144,6 +144,8 @@ int ex1_10() {
 	return EXIT_SUCCESS;
 }
 
+#define PRINT_UNSIGNED(i) printf(#i " = %" PRIuMAX "\n", (uintmax_t) (i))
+
 int ex1_11() {
 	/* Résultat attendu:
 	 * i = 1
@@ -153,8 +155,37 @@ int ex1_11() {
 	size_t i = 1;
 	uint32_t j = UINT32_MAX;
 
-	printf("%llu\n", i); // Fait un message mais zu: unknown...
-	printf("%" PRIu32, j);
+	PRINT_UNSIGNED(i);
+	PRINT_UNSIGNED(j);
+
+	return EXIT_SUCCESS;
+}
+
+int ex1_12() {
+	int n;
+	char c;
+
+	printf("Donnez un nombre entier et un caractere :");
+	if (scanf("%d %c", &n, &c) == 2) {
+		printf("n = %d, c = %c\n", n, c);
+	}
+	fflush(stdin); // pas portable, only Windows
+
+	return EXIT_SUCCESS;
+}
+
+#define TAILLE_NOM 20
+
+int ex1_13() {
+	char nom[TAILLE_NOM + 1];
+	char format[10];
+
+	sprintf(format, " %%%d[^\n]", TAILLE_NOM);
+	printf("Entrez votre nom (%d caract. max) :", TAILLE_NOM);
+	scanf(format, nom);
+	fflush(stdin);
+
+	printf("Votre nom est \"%s\"\n", nom);
 
 	return EXIT_SUCCESS;
 }

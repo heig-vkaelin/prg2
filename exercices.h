@@ -11,6 +11,8 @@ int ex1_7();
 int ex1_8();
 int ex1_10();
 int ex1_11();
+int ex1_12();
+int ex1_13();
 int ex2_1();
 int ex2_2();
 
