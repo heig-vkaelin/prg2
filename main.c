@@ -6,5 +6,5 @@
 #include "exercices.h"
 
 int main(void) {
-	return ex2_12();
+	return ex2_23();
 }
