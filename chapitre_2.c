@@ -46,3 +46,33 @@ int ex2_2(void) {
 
 	return EXIT_SUCCESS;
 }
+
+void afficher(int *debut, int *fin) {
+	printf("[");
+	for (int *i = debut; i <= fin; ++i) {
+		printf("%d", *i);
+		if (i != fin) {
+			printf(", ");
+		}
+	}
+	printf("]\n");
+}
+
+void inverser(int *debut, int *fin) {
+	int tmp;
+	long long n = fin - debut + 1;
+	for (int i = 0; i < n / 2; ++i) {
+		tmp = *(debut + i);
+		*(debut + i) = *(fin - i);
+		*(fin - i) = tmp;
+	}
+}
+
+int ex2_12(void) {
+	int tab[] = {0, 1, 2, 3, 4, 5};
+	afficher(tab, &tab[5]);
+	inverser(tab, &tab[5]);
+	afficher(tab, &tab[5]);
+
+	return EXIT_SUCCESS;
+}
