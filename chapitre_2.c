@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <float.h>
+#include <assert.h>
 
 // #define PRINT_ADDRESS(ADR) printf("0x%" PRIxPTR "\n", (intptr_t) (ADR))
 #define PRINT_ADDRESS(ADR) printf("%#x\n", (unsigned) (intptr_t) (ADR))
@@ -47,32 +48,56 @@ int ex2_2(void) {
 	return EXIT_SUCCESS;
 }
 
-void afficher(int *debut, int *fin) {
+void afficher(const int tab[], size_t taille) {
 	printf("[");
-	for (int *i = debut; i <= fin; ++i) {
-		printf("%d", *i);
-		if (i != fin) {
-			printf(", ");
+	if (tab) {
+		for (size_t i = 0; i < taille; ++i) {
+			if (i > 0) {
+				printf(", ");
+			}
+			printf("%d", tab[i]);
 		}
 	}
 	printf("]\n");
 }
 
 void inverser(int *debut, int *fin) {
-	int tmp;
-	long long n = fin - debut + 1;
-	for (int i = 0; i < n / 2; ++i) {
-		tmp = *(debut + i);
-		*(debut + i) = *(fin - i);
-		*(fin - i) = tmp;
+	assert(debut != NULL);
+	assert(fin != NULL);
+
+	while (debut < fin) {
+		int tampon = *debut;
+		*debut++ = *fin;
+		*fin-- = tampon;
 	}
 }
 
+void test_ex2_12(int tab[], size_t taille) {
+	printf("Avant inverser : \n");
+	afficher(tab, taille);
+	inverser(tab, tab + taille - 1);
+	printf("Apres inverser : \n");
+	afficher(tab, taille);
+}
+
 int ex2_12(void) {
-	int tab[] = {0, 1, 2, 3, 4, 5};
-	afficher(tab, &tab[5]);
-	inverser(tab, &tab[5]);
-	afficher(tab, &tab[5]);
+	{
+		// Erreur de compilation ?
+//		int tab[] = {};
+//		test_ex2_12(tab, sizeof(tab) / sizeof(int));
+	}
+	{
+		int tab[] = {1};
+		test_ex2_12(tab, sizeof(tab) / sizeof(int));
+	}
+	{
+		int tab[] = {1, 2};
+		test_ex2_12(tab, sizeof(tab) / sizeof(int));
+	}
+	{
+		int tab[] = {1, 2, 3};
+		test_ex2_12(tab, sizeof(tab) / sizeof(int));
+	}
 
 	return EXIT_SUCCESS;
 }
@@ -87,20 +112,17 @@ void afficherMatrice(int *adr, size_t m, size_t n) {
 }
 
 void initialiserMatrice(int *adr, size_t m, size_t n) {
+	assert(adr != NULL);
+
 	for (size_t i = 0; i < m * n; ++i) {
 		adr[i] = i < n || i >= (m - 1) * n || i % n == 0 || (i + 1) % n == 0 ? 1 : 4;
 	}
 }
 
 int ex2_21(void) {
-//	int matrice[3][4] = {{0, 1, 2,  3},
-//								{4, 5, 6,  7},
-//								{8, 9, 10, 11}};
-//	afficherMatrice(&matrice[0][0], 3, 4);
-
 	int matrice[3][4];
-	initialiserMatrice(&matrice[0][0], 6, 7);
-	afficherMatrice(&matrice[0][0], 6, 7);
+	initialiserMatrice((int *) matrice, 3, 4);
+	afficherMatrice((int *) matrice, 3, 4);
 	return EXIT_SUCCESS;
 }
 
@@ -138,6 +160,6 @@ int ex2_23(void) {
 
 	int *diagonale = diagonaleMatrice(&matrice[0][0], 3);
 	printf("Diagonale:\n");
-	afficher(diagonale, &diagonale[2]);
+	afficher(diagonale, 3);
 	return EXIT_SUCCESS;
 }
