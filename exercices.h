@@ -16,8 +16,11 @@ int ex1_13(void);
 int ex2_1(void);
 int ex2_2(void);
 int ex2_12(void);
+int ex2_15(void);
+int ex2_16(void);
 int ex2_21(void);
 int ex2_22(void);
 int ex2_23(void);
+int ex2_24(void);
 
 #endif // PRG2_EXERCICES_H

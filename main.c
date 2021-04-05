@@ -4,8 +4,9 @@
 #include <inttypes.h>
 #include <stddef.h>
 #include <assert.h>
+#include <math.h>
 #include "exercices.h"
 
 int main(void) {
-	return ex2_23();
+	return ex2_24();
 }
