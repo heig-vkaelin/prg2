@@ -102,7 +102,7 @@ int ex2_12(void) {
 	return EXIT_SUCCESS;
 }
 
-void afficherMatrice(int *adr, size_t m, size_t n) {
+void afficherMatrice(const int *adr, size_t m, size_t n) {
 	for (size_t i = 0; i < m * n; ++i) {
 		printf("%d ", *(adr + i));
 		if ((i + 1) % n == 0) {
@@ -126,8 +126,9 @@ int ex2_21(void) {
 	return EXIT_SUCCESS;
 }
 
-double sommeMatrice(double *adr, size_t m, size_t n) {
-	double somme = 0;
+double sommeMatrice(const double *adr, size_t m, size_t n) {
+	assert(adr != NULL);
+	double somme = 0.0;
 	for (size_t i = 0; i < m * n; ++i) {
 		somme += adr[i];
 	}
@@ -135,31 +136,40 @@ double sommeMatrice(double *adr, size_t m, size_t n) {
 }
 
 int ex2_22(void) {
-	double matrice[3][4] = {{1,   2.5, 3,   4},
+	const double M[3][4] = {{1,   2.5, 3,   4},
 									{5,   6,   7.5, 8},
 									{9.5, 10,  11,  12}};
 
-	double somme = sommeMatrice(&matrice[0][0], 3, 4);
-	printf("Somme de la matrice: %g", somme);
+	printf("Somme de la matrice: %g\n", sommeMatrice((double *) M, 3, 4));
 
 	return EXIT_SUCCESS;
 }
 
-int *diagonaleMatrice(int *adr, size_t n) {
-	int *diag = (int *) malloc(n * sizeof(int));
-	for (size_t i = 0; i < n; ++i) {
-		diag[i] = *(adr + i * n + i);
+int *diagonaleMatrice(const int *adr, size_t n) {
+	assert(adr != NULL);
+	int *vecteur = (int *) calloc(n, sizeof(int));
+	if (vecteur) {
+		for (size_t i = 0; i < n; ++i) {
+			vecteur[i] = adr[i * (n + 1)];
+		}
 	}
-	return diag;
+	return vecteur;
+}
+
+void test_ex2_23(int *(*f)(const int *, size_t), const int *adr, size_t n) {
+	assert(f != NULL);
+	int *vecteur = f(adr, n);
+	printf("Diagonale = ");
+	afficher(vecteur, n);
+	free(vecteur);
 }
 
 int ex2_23(void) {
-	int matrice[3][3] = {{1, 2, 3},
+	const int M[3][3] = {{1, 2, 3},
 								{4, 5, 6},
 								{7, 8, 9}};
 
-	int *diagonale = diagonaleMatrice(&matrice[0][0], 3);
-	printf("Diagonale:\n");
-	afficher(diagonale, 3);
+	test_ex2_23(diagonaleMatrice, (int *) M, 3);
+
 	return EXIT_SUCCESS;
 }
