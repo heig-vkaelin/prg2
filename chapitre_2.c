@@ -106,9 +106,9 @@ int ex2_12(void) {
 int *initialiser(size_t taille, int val) {
 	int *tab = (int *) calloc(taille, sizeof(int));
 	if (tab) {
-		for (size_t i = 0; i < taille; ++i) {
-			tab[i] = val;
-		}
+//		for (size_t i = 0; i < taille; ++i)
+//			tab[i] = val;
+		for (int *tmp = tab; tmp < tab + taille; *tmp++ = val);
 	}
 	return tab;
 }
@@ -131,12 +131,13 @@ int ex2_15(void) {
 int *inverse_v2(const int *debut, const int *fin) {
 	assert(debut != NULL);
 	assert(fin != NULL);
+	assert(fin == debut - 1 || debut <= fin);
 
-	size_t n = (size_t) (fin - debut + 1);
-	int *tab = (int *) calloc(n, sizeof(int));
+	const size_t TAILLE = (size_t) (fin - debut + 1);
+	int *tab = (int *) calloc(TAILLE, sizeof(int));
 	if (tab) {
-		for (size_t i = 0; i < n; ++i) {
-			tab[i] = *(fin - i);
+		for (size_t i = 0; i < TAILLE; ++i) {
+			tab[i] = *fin--;
 		}
 	}
 	return tab;
@@ -149,6 +150,8 @@ void test_ex2_16(int tab[], size_t taille) {
 	printf("Apres inverser : \n");
 	afficher(tab_inverse, taille);
 	free(tab_inverse);
+	tab_inverse = NULL;
+	printf("\n");
 }
 
 int ex2_16(void) {
@@ -240,25 +243,32 @@ int ex2_23(void) {
 	return EXIT_SUCCESS;
 }
 
-#define PI 3.14159265358979323846
+#define PI 3.141592654
 
-double integrer(double (*f)(double), double a, double b, int pas) {
-	double somme = 0;
-	double hauteur = fabs(b - a) / pas;
-	for (int i = 1; i < pas; i++) {
-		somme += f(a + i * hauteur);
+double integrale(double (*f)(double), double a, double b, unsigned nbPas) {
+	assert(f != NULL);
+	assert(a < b);
+	assert(nbPas > 0);
+
+
+	const double PAS = (b - a) / nbPas;
+	double x = a;
+	double surface = 0.0;
+	for (unsigned i = 0; i < nbPas; x += PAS, ++i) {
+		surface += 0.5 * PAS * (f(x) + f(x + PAS));
 	}
-	return (hauteur / 2) * (f(a) + f(b) + 2 * somme);
+	return surface;
 }
 
-double exponentiel(double value) {
-	return exp(-value * value);
+double exponentiel(double x) {
+	return exp(-x * x);
 }
 
 int ex2_24(void) {
-	// TODO: exp ne fonctionne pas, problème avec le "INFINITY"
-	printf("e^(-x^2) entre 0 et inf: %g\n", integrer(exponentiel, 0, INFINITY, 10));
-	printf("sin(x) entre 0 et pi/2: %g\n", integrer(sin, 0, PI / 2, 642));
+	printf("integrale de exp(-x*x) entre 0 et infini: %g\n",
+			 integrale(exponentiel, 0, 20, 1000));
+	printf("integrale de sin(x) entre 0 et pi/2: %g\n",
+			 integrale(sin, 0, PI / 2, 1000));
 
 	return EXIT_SUCCESS;
 }
