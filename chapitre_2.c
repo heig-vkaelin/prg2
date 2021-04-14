@@ -8,6 +8,7 @@
 #include <float.h>
 #include <assert.h>
 #include <math.h>
+#include <string.h>
 
 // #define PRINT_ADDRESS(ADR) printf("0x%" PRIxPTR "\n", (intptr_t) (ADR))
 #define PRINT_ADDRESS(ADR) printf("%#x\n", (unsigned) (intptr_t) (ADR))
@@ -186,6 +187,42 @@ void initialiserMatrice(int *adr, size_t m, size_t n) {
 	for (size_t i = 0; i < m * n; ++i) {
 		adr[i] = i < n || i >= (m - 1) * n || i % n == 0 || (i + 1) % n == 0 ? 1 : 4;
 	}
+}
+
+int ex2_18(void) {
+	int tab1[] = {1, 2, 3, 4, 5};
+	const size_t SIZE = sizeof(tab1) / sizeof(int);
+	int *tab2 = (int *) calloc(SIZE, sizeof(int));
+
+	memcpy(tab2, tab1, sizeof(tab1));
+	afficher(tab1, SIZE);
+	afficher(tab2, SIZE);
+	free(tab2);
+	tab2 = NULL;
+
+	return EXIT_SUCCESS;
+}
+
+#define SIZE_EX219 3
+
+int ex2_19(void) {
+	int tab[SIZE_EX219] = {0};
+	afficher(tab, SIZE_EX219);
+	for (size_t i = 0; i < SIZE_EX219; ++i) tab[i]++;
+	afficher(tab, SIZE_EX219);
+
+	memset(tab, 0, sizeof(tab));
+
+	for (size_t i = 0; i < SIZE_EX219; ++i) tab[i] += 2;
+	afficher(tab, SIZE_EX219);
+	return EXIT_SUCCESS;
+}
+
+int ex2_20(void) {
+	char str[] = "memmove est tres utile......";
+	memmove(str + 17, str + 12, 10);
+	printf("%s\n", str);
+	return EXIT_SUCCESS;
 }
 
 int ex2_21(void) {
