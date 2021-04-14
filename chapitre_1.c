@@ -8,6 +8,38 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+#define GENERIC_ABS(type) \
+type type##_abs(type x)  {  \
+  return x > 0 ? x : -x;  \
+}
+
+GENERIC_ABS(int)
+
+int ex1_3(void) {
+	int n;
+
+	printf("1. %d\n", int_abs(2));
+	printf("2. %d\n", int_abs(-2));
+	printf("3. %d\n", int_abs('A'));
+
+	n = -2;
+	printf("4. %d\n", int_abs(n + 1));
+
+	n = -2;
+	printf("5. %d", int_abs(n++));
+	printf(" %d\n", n);
+
+	n = -2;
+	printf("6. %d", int_abs(++n));
+	printf(" %d\n", n);
+
+	n = -2;
+	printf("7. %d", abs(++n));
+	printf(" %d\n", n);
+
+	return EXIT_SUCCESS;
+}
+
 #define INT_SIZE sizeof(int) * 8
 
 typedef unsigned short ushort;

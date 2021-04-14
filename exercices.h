@@ -5,6 +5,7 @@
 #ifndef PRG2_EXERCICES_H
 #define PRG2_EXERCICES_H
 
+int ex1_3(void);
 int ex1_5(void);
 int ex1_6(void);
 int ex1_7(void);
