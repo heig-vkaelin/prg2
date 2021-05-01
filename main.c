@@ -8,5 +8,5 @@
 #include "exercices.h"
 
 int main(void) {
-	return ex3_3();
+	return ex3_4();
 }
