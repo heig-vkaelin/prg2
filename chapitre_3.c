@@ -7,32 +7,36 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
+#define TAILLE_MAX_NOM 20
+typedef char Nom[TAILLE_MAX_NOM + 1];
+typedef uint8_t Taille;
 typedef enum {
 	BLEU, VERT, GRIS, MARRON, NOIR
-} Couleur;
+} CouleurYeux;
+const char* const COULEURS_YEUX[] = {"bleus", "verts", "gris", "marron", "noirs"};
 
-char* STR_COULEURS[5] = {"bleus", "verts", "gris", "marrons", "noirs"};
-
-typedef struct personne {
-	char nom[20];
-	uint8_t taille;
-	Couleur yeux;
+typedef struct {
+	Nom nom;
+	Taille taille;
+	CouleurYeux couleurYeux;
 } Personne;
 
-void afficher_ex3_2_1(const Personne p) {
-	printf("%s mesure %dcm et a les yeux %s.\n",
-			 p.nom, p.taille, STR_COULEURS[p.yeux]);
+void afficher_ex3_2_2(const Personne* adr) {
+	printf("Nom    : %s\n", adr->nom);
+	printf("Taille : %" PRIu8 "\n", adr->taille); // ou alors %hu pour short unsigned
+	printf("Yeux   : %s\n", COULEURS_YEUX[adr->couleurYeux]);
 }
 
-void afficher_ex3_2_2(const Personne* p) {
-	printf("%s mesure %dcm et a les yeux %s.\n",
-			 p->nom, p->taille, STR_COULEURS[p->yeux]);
+void afficher_ex3_2_1(Personne p) {
+	afficher_ex3_2_2(&p);
 }
 
 int ex3_2(void) {
-	Personne toto = {.nom="Toto", .taille=180, .yeux=BLEU};
-	afficher_ex3_2_1(toto);
-	afficher_ex3_2_2(&toto);
+	Personne p = {.nom="Toto", .taille=180, .couleurYeux=BLEU};
+	afficher_ex3_2_1(p);
+	printf("\n");
+	afficher_ex3_2_2(&p);
+	printf("\n");
 
 	return EXIT_SUCCESS;
 }
@@ -40,13 +44,13 @@ int ex3_2(void) {
 typedef struct personneV2 {
 	char* nom;
 	uint8_t taille;
-	Couleur yeux;
+	CouleurYeux couleurYeux;
 } PersonneV2;
 
 void afficher_ex3_3(const PersonneV2* p) {
 	printf("Nom    : %s\n", p->nom);
 	printf("Taille : %d\n", p->taille);
-	printf("Yeux   : %s\n\n", STR_COULEURS[p->yeux]);
+	printf("Yeux   : %s\n\n", COULEURS_YEUX[p->couleurYeux]);
 }
 
 void afficher_personnes(const PersonneV2* personnes[], size_t n) {
@@ -56,9 +60,9 @@ void afficher_personnes(const PersonneV2* personnes[], size_t n) {
 }
 
 int ex3_3(void) {
-	PersonneV2 paul = {.nom="Paul", .taille=180, .yeux=BLEU};
-	PersonneV2 pierre = {.nom="Pierre", .taille=175, .yeux=VERT};
-	PersonneV2 jean_jacques = {.nom="Jean-Jacques", .taille=182, .yeux=MARRON};
+	PersonneV2 paul = {.nom="Paul", .taille=180, .couleurYeux=BLEU};
+	PersonneV2 pierre = {.nom="Pierre", .taille=175, .couleurYeux=VERT};
+	PersonneV2 jean_jacques = {.nom="Jean-Jacques", .taille=182, .couleurYeux=MARRON};
 //	afficher_ex3_3(&paul);
 
 	const PersonneV2* personnes[] = {&paul, &pierre, &jean_jacques};
