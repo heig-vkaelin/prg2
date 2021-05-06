@@ -41,32 +41,35 @@ int ex3_2(void) {
 	return EXIT_SUCCESS;
 }
 
-typedef struct personneV2 {
-	char* nom;
-	uint8_t taille;
+typedef const char* NomV2;
+
+typedef struct {
+	NomV2 nom;
+	Taille taille;
 	CouleurYeux couleurYeux;
 } PersonneV2;
 
 void afficher_ex3_3(const PersonneV2* p) {
 	printf("Nom    : %s\n", p->nom);
-	printf("Taille : %d\n", p->taille);
-	printf("Yeux   : %s\n\n", COULEURS_YEUX[p->couleurYeux]);
+	printf("Taille : %" PRIu8 "\n", p->taille);
+	printf("Yeux   : %s\n", COULEURS_YEUX[p->couleurYeux]);
 }
 
-void afficher_personnes(const PersonneV2* personnes[], size_t n) {
+void afficherPersonnes(const PersonneV2 tab[], size_t n) {
 	for (size_t i = 0; i < n; ++i) {
-		afficher_ex3_3(personnes[i]);
+		afficher_ex3_3(&tab[i]); // ou afficher_ex3_3(tab + i)
+		printf("\n");
 	}
 }
 
 int ex3_3(void) {
-	PersonneV2 paul = {.nom="Paul", .taille=180, .couleurYeux=BLEU};
-	PersonneV2 pierre = {.nom="Pierre", .taille=175, .couleurYeux=VERT};
-	PersonneV2 jean_jacques = {.nom="Jean-Jacques", .taille=182, .couleurYeux=MARRON};
-//	afficher_ex3_3(&paul);
-
-	const PersonneV2* personnes[] = {&paul, &pierre, &jean_jacques};
-	afficher_personnes(personnes, 3);
+	const PersonneV2 PERSONNES[] = {
+		{.nom="Paul", .taille=180, .couleurYeux=BLEU},
+		{.nom="Pierre", .taille=175, .couleurYeux=VERT},
+		{.nom="Jean-Jacques", .taille=182, .couleurYeux=MARRON}
+	};
+	const size_t TAILLE = sizeof(PERSONNES) / sizeof(PersonneV2);
+	afficherPersonnes(PERSONNES, TAILLE);
 
 	return EXIT_SUCCESS;
 }
