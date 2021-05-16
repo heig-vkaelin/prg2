@@ -139,3 +139,39 @@ int ex3_4(void) {
 
 	return EXIT_SUCCESS;
 }
+
+typedef enum {
+	A, B, C
+} Permis;
+const char PERMIS[] = {'A', 'B', 'C'};
+const char* const NATIONALITES[] = {"Etranger", "Suisse"};
+
+typedef struct {
+	Nom nom;
+	int swiss;
+	union {
+		double taux;
+		Permis permis;
+	};
+} PersonneV3;
+
+void afficher_ex3_6(const PersonneV3* p) {
+	printf("Nom           : %s\n", p->nom);
+	printf("Nationalite   : %s\n", NATIONALITES[p->swiss]);
+	if (p->swiss) {
+		printf("Taux activite : %g%%\n", p->taux);
+	} else {
+		printf("Type permis   : %c\n", PERMIS[p->permis]);
+	}
+	printf("\n");
+}
+
+int ex3_6(void) {
+	PersonneV3 p1 = {.nom="Toto", .swiss=true, .taux=80};
+	PersonneV3 p2 = {.nom="Titi", .swiss=false, .permis=C};
+
+	afficher_ex3_6(&p1);
+	afficher_ex3_6(&p2);
+
+	return EXIT_SUCCESS;
+}
