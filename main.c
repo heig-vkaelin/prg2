@@ -5,8 +5,10 @@
 #include <stddef.h>
 #include <assert.h>
 #include <math.h>
+#include <stdbool.h>
+#include <string.h>
 #include "exercices.h"
 
 int main(void) {
-	return ex3_6();
+	return ex3_9();
 }

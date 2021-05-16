@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 #include <stdbool.h>
+#include <string.h>
 
 #define TAILLE_MAX_NOM 20
 typedef char Nom[TAILLE_MAX_NOM + 1];
@@ -148,7 +149,9 @@ const char* const NATIONALITES[] = {"Etranger", "Suisse"};
 
 typedef struct {
 	Nom nom;
-	int swiss;
+	enum {
+		ETRANGER, SUISSE
+	} kind;
 	union {
 		double taux;
 		Permis permis;
@@ -157,8 +160,8 @@ typedef struct {
 
 void afficher_ex3_6(const PersonneV3* p) {
 	printf("Nom           : %s\n", p->nom);
-	printf("Nationalite   : %s\n", NATIONALITES[p->swiss]);
-	if (p->swiss) {
+	printf("Nationalite   : %s\n", NATIONALITES[p->kind]);
+	if (p->kind == SUISSE) {
 		printf("Taux activite : %g%%\n", p->taux);
 	} else {
 		printf("Type permis   : %c\n", PERMIS[p->permis]);
@@ -167,11 +170,42 @@ void afficher_ex3_6(const PersonneV3* p) {
 }
 
 int ex3_6(void) {
-	PersonneV3 p1 = {.nom="Toto", .swiss=true, .taux=80};
-	PersonneV3 p2 = {.nom="Titi", .swiss=false, .permis=C};
+	PersonneV3 p1 = {.nom="Toto", .kind=SUISSE, .taux=80};
+	PersonneV3 p2 = {.nom="Titi", .kind=ETRANGER, .permis=C};
 
 	afficher_ex3_6(&p1);
 	afficher_ex3_6(&p2);
+
+	return EXIT_SUCCESS;
+}
+
+#define NB_JOURS 7
+#define TAILLE_JOUR 8
+typedef enum {
+	invalide = -1, lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche
+} Jours;
+const char* const JOURS[] =
+	{"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"};
+
+int ex3_9(void) {
+	char jour[TAILLE_JOUR + 1];
+	char format[10];
+	sprintf(format, " %%%d[^\n]", TAILLE_JOUR);
+	Jours index = invalide;
+
+	do {
+		printf("Donnez un jour de la semaine en toutes lettres :");
+		scanf(format, jour);
+		fflush(stdin);
+
+		for (int i = 0; i < NB_JOURS; ++i) {
+			if (strcasecmp(JOURS[i], jour) == 0) index = (Jours) i;
+		}
+	} while (index == invalide);
+
+	for (int i = 0; i < NB_JOURS; ++i) {
+		printf("%s\n", JOURS[(i + index) % NB_JOURS]);
+	}
 
 	return EXIT_SUCCESS;
 }
