@@ -142,39 +142,43 @@ int ex3_4(void) {
 }
 
 typedef enum {
+	ETRANGER, SUISSE
+} Nationalite;
+typedef enum {
 	A, B, C
-} Permis;
-const char PERMIS[] = {'A', 'B', 'C'};
+} TypePermis;
 const char* const NATIONALITES[] = {"Etranger", "Suisse"};
+const char* TYPES_PERMIS[] = {"A", "B", "C"};
+
+typedef union {
+	uint8_t tauxActivite;
+	TypePermis typePermis;
+} Specificites;
 
 typedef struct {
 	Nom nom;
-	enum {
-		ETRANGER, SUISSE
-	} kind;
-	union {
-		double taux;
-		Permis permis;
-	};
+	Nationalite nationalite;
+	Specificites specificites;
 } PersonneV3;
 
 void afficher_ex3_6(const PersonneV3* p) {
 	printf("Nom           : %s\n", p->nom);
-	printf("Nationalite   : %s\n", NATIONALITES[p->kind]);
-	if (p->kind == SUISSE) {
-		printf("Taux activite : %g%%\n", p->taux);
+	printf("Nationalite   : %s\n", NATIONALITES[p->nationalite]);
+	if (p->nationalite == SUISSE) {
+		printf("Taux activite : %" PRIu8 "%%\n", p->specificites.tauxActivite);
 	} else {
-		printf("Type permis   : %c\n", PERMIS[p->permis]);
+		printf("Type permis   : %s\n", TYPES_PERMIS[p->specificites.typePermis]);
 	}
-	printf("\n");
 }
 
 int ex3_6(void) {
-	PersonneV3 p1 = {.nom="Toto", .kind=SUISSE, .taux=80};
-	PersonneV3 p2 = {.nom="Titi", .kind=ETRANGER, .permis=C};
+	PersonneV3 p1 = {.nom="Toto", .nationalite=SUISSE, {.tauxActivite=80}};
+	PersonneV3 p2 = {"Titi", ETRANGER, {.typePermis=C}};
 
 	afficher_ex3_6(&p1);
+	printf("\n");
 	afficher_ex3_6(&p2);
+	printf("\n");
 
 	return EXIT_SUCCESS;
 }
