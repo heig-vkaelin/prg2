@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 #include "exercices.h"
 
 int main(void) {

@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 #include <string.h>
+#include <ctype.h>
 
 #define TAILLE_MAX_NOM 20
 typedef char Nom[TAILLE_MAX_NOM + 1];
@@ -204,33 +205,55 @@ int ex3_6(void) {
 	return EXIT_SUCCESS;
 }
 
-#define NB_JOURS 7
-#define TAILLE_JOUR 8
-typedef enum {
-	invalide = -1, lundi, mardi, mercredi, jeudi, vendredi, samedi, dimanche
-} Jours;
-const char* const JOURS[] =
-	{"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"};
+void toLower(char* s) {
+	if (s != NULL) {
+		const size_t TAILLE = strlen(s);
+		for (size_t i = 0; i < TAILLE; ++i) {
+			s[i] = (char) tolower(s[i]);
+		}
+	}
+}
+
+size_t lireChaine(const char* const tab[], size_t n,
+						const char* msgInvite, const char* msgErreur) {
+#define TAILLE_MAX_CHAINE 8
+	char chaineControle[4];
+	sprintf(chaineControle, "%%%ds", TAILLE_MAX_CHAINE);
+	char chaine[TAILLE_MAX_CHAINE + 1];
+	do {
+		printf("%s", msgInvite);
+		scanf(chaineControle, chaine);
+		fflush(stdin); // version portable: fseek(stdin, 0, SEEK_END)
+		toLower(chaine);
+
+		for (size_t i = 0; i < n; ++i) {
+			if (strcmp(chaine, tab[i]) == 0) {
+				return i;
+			}
+		}
+		puts(msgErreur);
+	} while (true);
+}
+
+void afficher_ex3_9(const char* const tab[], size_t n, size_t pos) {
+	for (size_t i = 0; i < n; ++i) {
+		printf("%s\n", tab[(pos + i) % n]);
+	}
+}
 
 int ex3_9(void) {
-	char jour[TAILLE_JOUR + 1];
-	char format[10];
-	sprintf(format, " %%%d[^\n]", TAILLE_JOUR);
-	Jours index = invalide;
+	typedef enum {
+		LUNDI, MARDI, MERCREDI, JEUDI, VENDREDI, SAMEDI, DIMANCHE
+	} Jour;
+	const char* const JOURS[] =
+		{"lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"};
+	const size_t NB_JOURS = sizeof(JOURS) / sizeof(const char*);
 
-	do {
-		printf("Donnez un jour de la semaine en toutes lettres :");
-		scanf(format, jour);
-		fflush(stdin);
+	const char* const MSG_INVITE = "Donnez un jour de la semaine en toutes lettres :";
+	const char* const MSG_ERREUR = "Saisie incorrecte. Veuillez SVP recommencer.";
 
-		for (int i = 0; i < NB_JOURS; ++i) {
-			if (strcasecmp(JOURS[i], jour) == 0) index = (Jours) i;
-		}
-	} while (index == invalide);
-
-	for (int i = 0; i < NB_JOURS; ++i) {
-		printf("%s\n", JOURS[(i + index) % NB_JOURS]);
-	}
+	Jour jour = (Jour) lireChaine(JOURS, NB_JOURS, MSG_INVITE, MSG_ERREUR);
+	afficher_ex3_9(JOURS, NB_JOURS, jour);
 
 	return EXIT_SUCCESS;
 }
