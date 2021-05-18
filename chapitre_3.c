@@ -257,3 +257,54 @@ int ex3_9(void) {
 
 	return EXIT_SUCCESS;
 }
+
+typedef int Info;
+typedef struct Elem {
+	Info info;
+	struct Elem* suivant;
+} Element;
+typedef Element* Pile;
+
+bool empiler(Pile* pile, Info info) {
+	Pile tmp = (Pile) malloc(sizeof(Element)); // Corrigé: Element* à la place de Pile
+	if (tmp) {
+		*tmp = (Element) {info, *pile};
+		*pile = tmp;
+		return true;
+	}
+	return false;
+}
+
+bool desempiler(Pile* pile, Info* info) {
+	if (*pile != NULL) {
+		Pile tmp = *pile; // Corrigé: Element* à la place de Pile
+		*info = tmp->info;
+		*pile = tmp->suivant;
+		free(tmp);
+		return true;
+	}
+	return false;
+}
+
+bool estVide(Pile pile) {
+	return pile == NULL;
+}
+
+int ex3_10(void) {
+	Pile pile = NULL;
+	Info info;
+	// Saisie utilisateur
+	do {
+		printf("Donnez un entier (0 pour terminer) : ");
+		scanf("%d", &info);
+		if (info != 0)
+			empiler(&pile, info);
+	} while (info != 0);
+	// Affichage dans l'ordre inverse des valeurs saisies par l'utilisateur
+	printf("\n");
+	while (!estVide(pile)) {
+		desempiler(&pile, &info);
+		printf("%d\n", info);
+	}
+	return EXIT_SUCCESS;
+}
