@@ -150,9 +150,17 @@ typedef enum {
 const char* const NATIONALITES[] = {"Etranger", "Suisse"};
 const char* TYPES_PERMIS[] = {"A", "B", "C"};
 
-typedef union {
+typedef struct {
 	uint8_t tauxActivite;
+} Suisse;
+
+typedef struct {
 	TypePermis typePermis;
+} Etranger;
+
+typedef union {
+	Suisse suisse;
+	Etranger etranger;
 } Specificites;
 
 typedef struct {
@@ -165,15 +173,28 @@ void afficher_ex3_6(const PersonneV3* p) {
 	printf("Nom           : %s\n", p->nom);
 	printf("Nationalite   : %s\n", NATIONALITES[p->nationalite]);
 	if (p->nationalite == SUISSE) {
-		printf("Taux activite : %" PRIu8 "%%\n", p->specificites.tauxActivite);
+		printf("Taux activite : %" PRIu8 "%%\n", p->specificites.suisse.tauxActivite);
 	} else {
-		printf("Type permis   : %s\n", TYPES_PERMIS[p->specificites.typePermis]);
+		printf("Type permis   : %s\n",
+				 TYPES_PERMIS[p->specificites.etranger.typePermis]);
 	}
 }
 
+PersonneV3 suisse(const char* nom, uint8_t tauxActivite) {
+	PersonneV3 p = {"", SUISSE, {.suisse={tauxActivite}}};
+	strcpy(p.nom, nom);
+	return p;
+}
+
+PersonneV3 etranger(const char* nom, TypePermis typePermis) {
+	PersonneV3 p = {"", ETRANGER, {.etranger={typePermis}}};
+	strcpy(p.nom, nom);
+	return p;
+}
+
 int ex3_6(void) {
-	PersonneV3 p1 = {.nom="Toto", .nationalite=SUISSE, {.tauxActivite=80}};
-	PersonneV3 p2 = {"Titi", ETRANGER, {.typePermis=C}};
+	PersonneV3 p1 = suisse("Toto", 80);
+	PersonneV3 p2 = etranger("Titi", C);
 
 	afficher_ex3_6(&p1);
 	printf("\n");
