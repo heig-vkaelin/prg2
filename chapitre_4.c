@@ -69,19 +69,22 @@ int ex4_3(void) {
 
 char* strcat(char* to, const char* from) {
 	char* tmp = to;
-	while (*to)
-		to++;
-	while ((*to++ = *from++));
+	while (*to) to++;
+	while ((*to++ = *from++) != '\0');
 	return tmp;
 }
 
 int ex4_4(void) {
-	char from[] = "test";
-	char to[] = "Ceci est un ";
+	char to[10] = ""; // A besoin de contenir un '\0'
+	const char* from = "ABC";
+	char* s;
 
-	printf("From: %s To: %s \n", from, to);
 	strcat(to, from);
-	printf("From: %s To: %s \n", from, to);
+	PRINT(to);
+
+	s = strcat(to, "DEF");
+	PRINT(to);
+	PRINT(s);
 
 	return EXIT_SUCCESS;
 }
@@ -92,7 +95,7 @@ char* strncat(char* to, const char* from, size_t size) {
 	while (*to)
 		to++;
 	while (i++ != size && (*to++ = *from++));
-	*to++ = 0;
+	*to = 0;
 	return tmp;
 }
 
