@@ -37,19 +37,32 @@ int ex4_2(void) {
 }
 
 char* strncpy(char* to, const char* from, size_t size) {
-	size_t i = 0;
-	char* tmp = to;
-	while (i++ != size && (*to++ = *from++));
-	return tmp;
+	size_t i;
+	for (i = 0; i < size && from[i] != '\0'; ++i)
+		to[i] = from[i];
+	for (; i < size; ++i)
+		to[i] = '\0';
+	return to;
 }
 
 int ex4_3(void) {
-	char from[] = "Test";
-	char to[] = "Old";
+	{
+		const char* from = "AB";
+		char to[] = "XXXXXX";
+		for (size_t i = 0; i <= 3; ++i) {
+			strncpy(to, from, i);
+			PRINT(to);
+		}
+	}
 
-	printf("From: %s To: %s \n", from, to);
-	strncpy(to, from, 2);
-	printf("From: %s To: %s \n", from, to);
+	{
+		const char* from = "AB";
+		char to[] = "XXXXXX";
+		const size_t TAILLE = 6;
+		strncpy(to, from, 4);
+		for (size_t i = 0; i <= TAILLE; ++i)
+			printf("%d ", (int) to[i]);
+	}
 
 	return EXIT_SUCCESS;
 }
