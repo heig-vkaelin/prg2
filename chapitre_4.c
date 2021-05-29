@@ -5,19 +5,33 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define PRINT(STR) printf(#STR " = %s\n", STR)
+
 char* strcpy(char* to, const char* from) {
 	char* tmp = to;
-	while ((*to++ = *from++)); // while ((*to++ = *from++) != '\0');
+	while ((*to++ = *from++) != '\0');
 	return tmp;
 }
 
 int ex4_2(void) {
-	char from[] = "Test";
-	char to[] = "Old";
+	char s1[10];
+	char* s2;
+	const char* s3;
 
-	printf("From: %s To: %s \n", from, to);
-	strcpy(to, from);
-	printf("From: %s To: %s \n", from, to);
+	s2 = strcpy(s1, "");
+	PRINT(s1);
+	PRINT(s2);
+
+	strcpy(s1, "ABC");
+	PRINT(s1);
+	PRINT(s2);
+
+	s3 = "DEF";
+	strcpy(s1, s3);
+	PRINT(s1);
+
+	strcpy(s1, strcpy(s1, "ABC"));
+	PRINT(s1);
 
 	return EXIT_SUCCESS;
 }
