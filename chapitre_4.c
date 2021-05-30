@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #define PRINT(STR) printf(#STR " = %s\n", STR)
 
@@ -131,6 +132,33 @@ int ex4_7(void) {
 
 	printf("Char après %c: %c", aTrouver, *++pos);
 
+
+	return EXIT_SUCCESS;
+}
+
+char* concatNom(const char* prenom, const char* nom) {
+	char* chaine = (char*) calloc(strlen(prenom) + strlen(nom) + 1, sizeof(char));
+	if (chaine) {
+		char* copiePrenom = strcat(strcpy(chaine, prenom), " ");
+		strcat(copiePrenom, nom);
+	}
+
+	return chaine;
+}
+
+int ex4_8(void) {
+	char prenom[20];
+	char nom[20];
+
+	printf("Entrez un prenom:");
+	scanf("%s", prenom);
+	printf("Entrez un nom:");
+	scanf("%s", nom);
+
+	const char* nomComplet = concatNom(prenom, nom);
+
+	printf("La chaine \"%s\" comporte %zu caracteres.\n",
+			 nomComplet, strlen(nomComplet));
 
 	return EXIT_SUCCESS;
 }
