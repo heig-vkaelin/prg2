@@ -90,22 +90,27 @@ int ex4_4(void) {
 }
 
 char* strncat(char* to, const char* from, size_t size) {
-	size_t i = 0;
 	char* tmp = to;
-	while (*to)
-		to++;
-	while (i++ != size && (*to++ = *from++));
-	*to = 0;
+	if (!size) return tmp;
+
+	while (*to) to++;
+	while ((*to++ = *from++) != '\0') {
+		if (--size == 0) {
+			*to = '\0';
+			break;
+		}
+	}
 	return tmp;
 }
 
 int ex4_5(void) {
-	char from[] = "test je te jure";
-	char to[] = "Ceci est un ";
+	char to[10] = "";
+	const char* from = "ABC";
 
-	printf("From: %s To: %s \n", from, to);
-	strncat(to, from, 4);
-	printf("From: %s To: %s \n", from, to);
+	for (size_t i = 1; i <= 4; ++i) {
+		strncat(to, from, i);
+		PRINT(to);
+	}
 
 	return EXIT_SUCCESS;
 }
