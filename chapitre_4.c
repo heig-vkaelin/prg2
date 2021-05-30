@@ -114,3 +114,23 @@ int ex4_5(void) {
 
 	return EXIT_SUCCESS;
 }
+
+char* strchr(const char* s, int c) {
+	for (; *s != '\0'; ++s)
+		if (*s == c)
+			return (char*) s;
+
+	return NULL;
+}
+
+int ex4_7(void) {
+	char test[10] = "abcdEFghij";
+	char aTrouver = 'd';
+
+	char* pos = strchr(test, aTrouver);
+
+	printf("Char après %c: %c", aTrouver, *++pos);
+
+
+	return EXIT_SUCCESS;
+}
