@@ -162,3 +162,44 @@ int ex4_8(void) {
 
 	return EXIT_SUCCESS;
 }
+
+void inverser_1(char* s) {
+	char* begin = s;
+	char* end = s + strlen(s) - 1;
+	char tmp;
+	while (begin < end) {
+		tmp = *end;
+		*end-- = *begin;
+		*begin++ = tmp;
+	}
+}
+
+char* inverser_2(const char* s) {
+	size_t len = strlen(s);
+	char* chaine = (char*) calloc(len + 1, sizeof(char));
+	if (!chaine) {
+		return (char*) s;
+	}
+
+	for (size_t i = 0; i < len / 2; ++i) {
+		chaine[i] = s[len - 1 - i];
+		chaine[len - 1 - i] = s[i];
+	}
+
+	return chaine;
+}
+
+int ex4_9(void) {
+	char str[] = "Valentin";
+	printf("%s\n", str);
+	inverser_1(str);
+	printf("%s\n\n", str);
+
+	char str2[] = "Valentin";
+	printf("%s\n", str2);
+	char* str2_inv = inverser_2(str2);
+	printf("%s\n", str2);
+	printf("%s\n", str2_inv);
+
+	return EXIT_SUCCESS;
+}
