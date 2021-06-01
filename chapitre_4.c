@@ -116,22 +116,26 @@ int ex4_5(void) {
 	return EXIT_SUCCESS;
 }
 
-char* strchr(const char* s, int c) {
-	for (; *s != '\0'; ++s)
-		if (*s == c)
-			return (char*) s;
-
-	return NULL;
+char* xstrchr(const char* s, int c) {
+	for (; *s != (char) c; ++s) {
+		if (*s == '\0')
+			return NULL;
+	}
+	return (char*) s;
 }
 
 int ex4_7(void) {
-	char test[10] = "abcdEFghij";
-	char aTrouver = 'd';
+	const char* s = "ABC";
 
-	char* pos = strchr(test, aTrouver);
+	printf("%s\n", xstrchr(s, 'A'));
+	printf("%s\n", xstrchr(s, 65));
+	printf("%s\n", xstrchr(s, 321)); // 321 % 256 = 65 (via le cast en char)
+	printf("%s\n", xstrchr(s, 'B'));
+	printf("%s\n", xstrchr(s, 'C'));
+	printf("%s\n", xstrchr("", 0));
 
-	printf("Char après %c: %c", aTrouver, *++pos);
-
+	char* t = xstrchr(s, 'D');
+	printf("%s\n", t ? t : "NULL");
 
 	return EXIT_SUCCESS;
 }
