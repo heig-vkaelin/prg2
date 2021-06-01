@@ -137,28 +137,44 @@ int ex4_7(void) {
 }
 
 char* concatNom(const char* prenom, const char* nom) {
-	char* chaine = (char*) calloc(strlen(prenom) + strlen(nom) + 1, sizeof(char));
-	if (chaine) {
-		char* copiePrenom = strcat(strcpy(chaine, prenom), " ");
-		strcat(copiePrenom, nom);
+	char* resultat = (char*) calloc(strlen(prenom) + strlen(nom) + 2, sizeof(char));
+	if (resultat) {
+		strcpy(resultat, prenom);
+		strcat(resultat, " ");
+		strcat(resultat, nom);
 	}
-
-	return chaine;
+	return resultat;
 }
 
+#define TAILLE_MAX_PRENOM 20
+#define TAILLE_MAX_NOM 30
+#define TAILLE_MAX_CHAINE_CONTROLE 15
+
 int ex4_8(void) {
-	char prenom[20];
-	char nom[20];
+	char prenom[TAILLE_MAX_PRENOM + 1];
+	char nom[TAILLE_MAX_NOM + 1];
 
-	printf("Entrez un prenom:");
-	scanf("%s", prenom);
-	printf("Entrez un nom:");
-	scanf("%s", nom);
+	char chaineControlePrenom[TAILLE_MAX_CHAINE_CONTROLE + 1];
+	char chaineControleNom[TAILLE_MAX_CHAINE_CONTROLE + 1];
 
-	const char* nomComplet = concatNom(prenom, nom);
+	const char* const MOTIF = " %%%d[^\n]";
+	sprintf(chaineControlePrenom, MOTIF, TAILLE_MAX_PRENOM);
+	sprintf(chaineControleNom, MOTIF, TAILLE_MAX_NOM);
 
-	printf("La chaine \"%s\" comporte %zu caracteres.\n",
-			 nomComplet, strlen(nomComplet));
+	printf("Entrez le prenom (max %u caract.) :", TAILLE_MAX_PRENOM);
+	scanf(chaineControlePrenom, prenom);
+	fflush(stdin);
+
+	printf("Entrez le nom (max %u caract.) :", TAILLE_MAX_NOM);
+	scanf(chaineControleNom, nom);
+	fflush(stdin);
+
+	char* prenom_nom = concatNom(prenom, nom);
+	if (prenom_nom) {
+		printf("La chaine \"%s\" comporte %u caracteres.\n",
+				 prenom_nom, (unsigned) strlen(prenom_nom));
+		free(prenom_nom);
+	}
 
 	return EXIT_SUCCESS;
 }
