@@ -179,43 +179,59 @@ int ex4_8(void) {
 	return EXIT_SUCCESS;
 }
 
+/*
+ * (+) rapide car pas d'allocation dynamique
+ * (-) chaîne originale modifiée donc pas possible de passer une chaîne constante
+ * en paramètre
+ */
 void inverser_1(char* s) {
-	char* begin = s;
-	char* end = s + strlen(s) - 1;
-	char tmp;
-	while (begin < end) {
-		tmp = *end;
-		*end-- = *begin;
-		*begin++ = tmp;
+	if (s != NULL) {
+		char c;
+		char* ptr = s + strlen(s) - 1;
+		while (s < ptr) {
+			c = *s;
+			*s++ = *ptr;
+			*ptr-- = c;
+		}
 	}
 }
 
+/**
+ * (+) chaîne originale pas modifiée donc possible de passer une chaîne constante
+ * en paramètre
+ * (-) plus lente car nécessaire une allocation dynamique
+ */
 char* inverser_2(const char* s) {
-	size_t len = strlen(s);
-	char* chaine = (char*) calloc(len + 1, sizeof(char));
-	if (!chaine) {
-		return (char*) s;
+	if (s != NULL) {
+		const size_t TAILLE = strlen(s);
+		char* resultat = (char*) calloc(TAILLE + 1, sizeof(char));
+		if (resultat != NULL) {
+			char* ptr = resultat + TAILLE - 1;
+			for (; *s; ++s) {
+				*ptr-- = *s;
+			}
+			return resultat;
+		}
 	}
-
-	for (size_t i = 0; i < len / 2; ++i) {
-		chaine[i] = s[len - 1 - i];
-		chaine[len - 1 - i] = s[i];
-	}
-
-	return chaine;
+	return (char*) s;
 }
 
 int ex4_9(void) {
-	char str[] = "Valentin";
-	printf("%s\n", str);
-	inverser_1(str);
-	printf("%s\n\n", str);
+	char s1[] = "ABCD";
+	printf("s1 avant inversion = %s\n", s1);
+	inverser_1(s1);
+	printf("s1 apres inversion = %s\n", s1);
 
-	char str2[] = "Valentin";
-	printf("%s\n", str2);
-	char* str2_inv = inverser_2(str2);
-	printf("%s\n", str2);
-	printf("%s\n", str2_inv);
+	const char* s2 = "ABCD";
+	char* s3 = inverser_2(s2);
+	printf("\ns2 avant inversion = %s\n", s2);
+	printf("inverse de s2 = %s\n", s3);
+	printf("s2 apres inversion = %s\n", s2);
+
+	free(s3);
+
+	inverser_1(NULL);
+	inverser_2(NULL);
 
 	return EXIT_SUCCESS;
 }
