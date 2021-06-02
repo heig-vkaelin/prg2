@@ -266,7 +266,7 @@ typedef struct Elem {
 typedef Element* Pile;
 
 bool empiler(Pile* pile, Info info) {
-	Pile tmp = (Pile) malloc(sizeof(Element)); // Corrigé: Element* à la place de Pile
+	Element* tmp = (Element*) malloc(sizeof(Element));
 	if (tmp) {
 		*tmp = (Element) {info, *pile};
 		*pile = tmp;
@@ -277,7 +277,7 @@ bool empiler(Pile* pile, Info info) {
 
 bool desempiler(Pile* pile, Info* info) {
 	if (*pile != NULL) {
-		Pile tmp = *pile; // Corrigé: Element* à la place de Pile
+		Element* tmp = *pile;
 		*info = tmp->info;
 		*pile = tmp->suivant;
 		free(tmp);
