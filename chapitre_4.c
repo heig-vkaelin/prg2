@@ -8,7 +8,7 @@
 
 #define PRINT(STR) printf(#STR " = %s\n", STR)
 
-char* strcpy(char* to, const char* from) {
+char* xstrcpy(char* to, const char* from) {
 	char* tmp = to;
 	while ((*to++ = *from++) != '\0');
 	return tmp;
@@ -19,25 +19,25 @@ int ex4_2(void) {
 	char* s2;
 	const char* s3;
 
-	s2 = strcpy(s1, "");
+	s2 = xstrcpy(s1, "");
 	PRINT(s1);
 	PRINT(s2);
 
-	strcpy(s1, "ABC");
+	xstrcpy(s1, "ABC");
 	PRINT(s1);
 	PRINT(s2);
 
 	s3 = "DEF";
-	strcpy(s1, s3);
+	xstrcpy(s1, s3);
 	PRINT(s1);
 
-	strcpy(s1, strcpy(s1, "ABC"));
+	xstrcpy(s1, xstrcpy(s1, "ABC"));
 	PRINT(s1);
 
 	return EXIT_SUCCESS;
 }
 
-char* strncpy(char* to, const char* from, size_t size) {
+char* xstrncpy(char* to, const char* from, size_t size) {
 	size_t i;
 	for (i = 0; i < size && from[i] != '\0'; ++i)
 		to[i] = from[i];
@@ -51,7 +51,7 @@ int ex4_3(void) {
 		const char* from = "AB";
 		char to[] = "XXXXXX";
 		for (size_t i = 0; i <= 3; ++i) {
-			strncpy(to, from, i);
+			xstrncpy(to, from, i);
 			PRINT(to);
 		}
 	}
@@ -60,7 +60,7 @@ int ex4_3(void) {
 		const char* from = "AB";
 		char to[] = "XXXXXX";
 		const size_t TAILLE = 6;
-		strncpy(to, from, 4);
+		xstrncpy(to, from, 4);
 		for (size_t i = 0; i <= TAILLE; ++i)
 			printf("%d ", (int) to[i]);
 	}
@@ -68,7 +68,7 @@ int ex4_3(void) {
 	return EXIT_SUCCESS;
 }
 
-char* strcat(char* to, const char* from) {
+char* xstrcat(char* to, const char* from) {
 	char* tmp = to;
 	while (*to) to++;
 	while ((*to++ = *from++) != '\0');
@@ -80,17 +80,17 @@ int ex4_4(void) {
 	const char* from = "ABC";
 	char* s;
 
-	strcat(to, from);
+	xstrcat(to, from);
 	PRINT(to);
 
-	s = strcat(to, "DEF");
+	s = xstrcat(to, "DEF");
 	PRINT(to);
 	PRINT(s);
 
 	return EXIT_SUCCESS;
 }
 
-char* strncat(char* to, const char* from, size_t size) {
+char* xstrncat(char* to, const char* from, size_t size) {
 	char* tmp = to;
 	if (!size) return tmp;
 
@@ -109,7 +109,7 @@ int ex4_5(void) {
 	const char* from = "ABC";
 
 	for (size_t i = 1; i <= 4; ++i) {
-		strncat(to, from, i);
+		xstrncat(to, from, i);
 		PRINT(to);
 	}
 
