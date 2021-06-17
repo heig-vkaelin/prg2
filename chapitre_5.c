@@ -151,3 +151,24 @@ int ex5_5(void) {
 	fclose(fichier);
 	return EXIT_SUCCESS;
 }
+
+int ex5_7(void) {
+	FILE* f = fopen("../data/ex5_1.txt", "r");
+	if (!f) {
+		printf("Ouverture du fichier \"ex5_1.txt\" impossible.\n");
+		return EXIT_FAILURE;
+	}
+	fseek(f, 0, SEEK_END);
+	const size_t NB_OCTETS = (size_t) ftell(f);
+	char* buffer = (char*) calloc(NB_OCTETS, sizeof(char));
+	if (!buffer) {
+		printf("Memoire insuffisante pour creer le buffer.\n");
+		return EXIT_FAILURE;
+	}
+	rewind(f); // Se repositionner au début du fichier (= fseek(f, 0, SEEk_SET))
+	fread(buffer, NB_OCTETS, 1, f);
+	printf("%s\n\n", buffer);
+	free(buffer);
+	fclose(f);
+	return EXIT_SUCCESS;
+}

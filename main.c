@@ -11,5 +11,5 @@
 #include "exercices.h"
 
 int main(void) {
-	return ex5_5();
+	return ex5_7();
 }
