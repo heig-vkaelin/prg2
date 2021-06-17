@@ -69,3 +69,27 @@ int ex5_2(void) {
 	fclose(fichier);
 	return EXIT_SUCCESS;
 }
+
+int ex5_3(void) {
+	FILE* fichierBinaire = fopen("../data/personnes.dat", "rb");
+	if (!fichierBinaire) {
+		printf("Desole! Le fichier \"personnes.dat\" n'a pas pu etre ouvert.");
+		return EXIT_FAILURE;
+	}
+	FILE* fichierTexte = fopen("../data/personnes.txt", "w");
+	if (!fichierTexte) {
+		printf("Desole! Le fichier \"personnes.txt\" n'a pas pu etre ouvert.");
+		fclose(fichierBinaire);
+		return EXIT_FAILURE;
+	}
+	Personne p;
+	fprintf(fichierTexte, "%-*s %-*s %s\n",
+			  TAILLE_MAX_NOM, "Nom", TAILLE_MAX_PRENOM, "Prenom", "Age");
+	while (fread(&p, sizeof(Personne), 1, fichierBinaire)) {
+		fprintf(fichierTexte, "%-*s %-*s %3hu\n",
+				  TAILLE_MAX_NOM, p.nom, TAILLE_MAX_PRENOM, p.prenom, p.age);
+	}
+	fclose(fichierBinaire);
+	fclose(fichierTexte);
+	return EXIT_SUCCESS;
+}
