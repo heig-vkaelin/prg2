@@ -57,7 +57,7 @@ int ex1_5(void) {
 	return EXIT_SUCCESS;
 }
 
-int *setBit(ushort pos, ushort bitValue, int *n) {
+int* setBit(ushort pos, ushort bitValue, int* n) {
 	assert(pos < INT_SIZE);
 	assert(bitValue == 0 || bitValue == 1);
 	{ // Variante 1

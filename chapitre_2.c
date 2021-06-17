@@ -15,11 +15,11 @@
 
 int ex2_1(void) {
 	int n = 1;
-	int *ptr = &n;
+	int* ptr = &n;
 
 	printf("Valeur pointée par ptr: %d\n", *ptr);
-	printf("Adresse contenue dans ptr: %p\n", (void *) ptr);
-	printf("Adresse de ptr: %p\n", (void *) &ptr);
+	printf("Adresse contenue dans ptr: %p\n", (void*) ptr);
+	printf("Adresse de ptr: %p\n", (void*) &ptr);
 
 	printf("\nSeconde option: \n");
 	PRINT_ADDRESS(ptr);
@@ -28,7 +28,7 @@ int ex2_1(void) {
 	return EXIT_SUCCESS;
 }
 
-void carre_et_cube(double x, double *carre, double *cube) {
+void carre_et_cube(double x, double* carre, double* cube) {
 	*carre = x * x;
 	*cube = *carre * x;
 }
@@ -63,7 +63,7 @@ void afficher(const int tab[], size_t taille) {
 	printf("]\n");
 }
 
-void inverser(int *debut, int *fin) {
+void inverser(int* debut, int* fin) {
 	assert(debut != NULL);
 	assert(fin != NULL);
 
@@ -104,18 +104,18 @@ int ex2_12(void) {
 	return EXIT_SUCCESS;
 }
 
-int *initialiser(size_t taille, int val) {
-	int *tab = (int *) calloc(taille, sizeof(int));
+int* initialiser(size_t taille, int val) {
+	int* tab = (int*) calloc(taille, sizeof(int));
 	if (tab) {
 //		for (size_t i = 0; i < taille; ++i)
 //			tab[i] = val;
-		for (int *tmp = tab; tmp < tab + taille; *tmp++ = val);
+		for (int* tmp = tab; tmp < tab + taille; *tmp++ = val);
 	}
 	return tab;
 }
 
 void test_ex2_15(size_t taille, int val) {
-	int *vecteur = initialiser(taille, val);
+	int* vecteur = initialiser(taille, val);
 	afficher(vecteur, taille);
 	free(vecteur);
 }
@@ -129,13 +129,13 @@ int ex2_15(void) {
 	return EXIT_SUCCESS;
 }
 
-int *inverse_v2(const int *debut, const int *fin) {
+int* inverse_v2(const int* debut, const int* fin) {
 	assert(debut != NULL);
 	assert(fin != NULL);
 	assert(fin == debut - 1 || debut <= fin);
 
 	const size_t TAILLE = (size_t) (fin - debut + 1);
-	int *tab = (int *) calloc(TAILLE, sizeof(int));
+	int* tab = (int*) calloc(TAILLE, sizeof(int));
 	if (tab) {
 		for (size_t i = 0; i < TAILLE; ++i) {
 			tab[i] = *fin--;
@@ -147,7 +147,7 @@ int *inverse_v2(const int *debut, const int *fin) {
 void test_ex2_16(int tab[], size_t taille) {
 	printf("Avant inverser : \n");
 	afficher(tab, taille);
-	int *tab_inverse = inverse_v2(tab, tab + taille - 1);
+	int* tab_inverse = inverse_v2(tab, tab + taille - 1);
 	printf("Apres inverser : \n");
 	afficher(tab_inverse, taille);
 	free(tab_inverse);
@@ -172,7 +172,7 @@ int ex2_16(void) {
 	return EXIT_SUCCESS;
 }
 
-void afficherMatrice(const int *adr, size_t m, size_t n) {
+void afficherMatrice(const int* adr, size_t m, size_t n) {
 	for (size_t i = 0; i < m * n; ++i) {
 		printf("%d ", *(adr + i));
 		if ((i + 1) % n == 0) {
@@ -181,7 +181,7 @@ void afficherMatrice(const int *adr, size_t m, size_t n) {
 	}
 }
 
-void initialiserMatrice(int *adr, size_t m, size_t n) {
+void initialiserMatrice(int* adr, size_t m, size_t n) {
 	assert(adr != NULL);
 
 	for (size_t i = 0; i < m * n; ++i) {
@@ -192,7 +192,7 @@ void initialiserMatrice(int *adr, size_t m, size_t n) {
 int ex2_18(void) {
 	int tab1[] = {1, 2, 3, 4, 5};
 	const size_t SIZE = sizeof(tab1) / sizeof(int);
-	int *tab2 = (int *) calloc(SIZE, sizeof(int));
+	int* tab2 = (int*) calloc(SIZE, sizeof(int));
 
 	memcpy(tab2, tab1, sizeof(tab1));
 	afficher(tab1, SIZE);
@@ -227,12 +227,12 @@ int ex2_20(void) {
 
 int ex2_21(void) {
 	int matrice[3][4];
-	initialiserMatrice((int *) matrice, 3, 4);
-	afficherMatrice((int *) matrice, 3, 4);
+	initialiserMatrice((int*) matrice, 3, 4);
+	afficherMatrice((int*) matrice, 3, 4);
 	return EXIT_SUCCESS;
 }
 
-double sommeMatrice(const double *adr, size_t m, size_t n) {
+double sommeMatrice(const double* adr, size_t m, size_t n) {
 	assert(adr != NULL);
 	double somme = 0.0;
 	for (size_t i = 0; i < m * n; ++i) {
@@ -246,14 +246,14 @@ int ex2_22(void) {
 									{5,   6,   7.5, 8},
 									{9.5, 10,  11,  12}};
 
-	printf("Somme de la matrice: %g\n", sommeMatrice((double *) M, 3, 4));
+	printf("Somme de la matrice: %g\n", sommeMatrice((double*) M, 3, 4));
 
 	return EXIT_SUCCESS;
 }
 
-int *diagonaleMatrice(const int *adr, size_t n) {
+int* diagonaleMatrice(const int* adr, size_t n) {
 	assert(adr != NULL);
-	int *vecteur = (int *) calloc(n, sizeof(int));
+	int* vecteur = (int*) calloc(n, sizeof(int));
 	if (vecteur) {
 		for (size_t i = 0; i < n; ++i) {
 			vecteur[i] = adr[i * (n + 1)];
@@ -262,9 +262,9 @@ int *diagonaleMatrice(const int *adr, size_t n) {
 	return vecteur;
 }
 
-void test_ex2_23(int *(*f)(const int *, size_t), const int *adr, size_t n) {
+void test_ex2_23(int* (* f)(const int*, size_t), const int* adr, size_t n) {
 	assert(f != NULL);
-	int *vecteur = f(adr, n);
+	int* vecteur = f(adr, n);
 	printf("Diagonale = ");
 	afficher(vecteur, n);
 	free(vecteur);
@@ -275,14 +275,14 @@ int ex2_23(void) {
 								{4, 5, 6},
 								{7, 8, 9}};
 
-	test_ex2_23(diagonaleMatrice, (int *) M, 3);
+	test_ex2_23(diagonaleMatrice, (int*) M, 3);
 
 	return EXIT_SUCCESS;
 }
 
 #define PI 3.141592654
 
-double integrale(double (*f)(double), double a, double b, unsigned nbPas) {
+double integrale(double (* f)(double), double a, double b, unsigned nbPas) {
 	assert(f != NULL);
 	assert(a < b);
 	assert(nbPas > 0);
