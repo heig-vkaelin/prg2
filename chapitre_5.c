@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 int ex5_1(void) {
 	FILE* f = fopen("../data/ex5_1.txt", "r");
@@ -91,5 +92,27 @@ int ex5_3(void) {
 	}
 	fclose(fichierBinaire);
 	fclose(fichierTexte);
+	return EXIT_SUCCESS;
+}
+
+int ex5_4(void) {
+	FILE* fichier = fopen("../data/personnes.dat", "rb");
+	if (!fichier) {
+		printf("Desole! Le fichier \"personnes.dat\" n'a pas pu etre ouvert.");
+		return EXIT_FAILURE;
+	}
+	Personne p;
+	Nom nomRecherche;
+	printf("Quel nom recherchez-vous ? :");
+	saisie(nomRecherche, TAILLE_MAX_NOM);
+	bool trouve = false;
+	while (!trouve && fread(&p, sizeof(Personne), 1, fichier)) {
+		trouve = strcmp(p.nom, nomRecherche) == 0;
+	}
+	if (trouve)
+		printf("%s %s, %hu ans\n", p.prenom, p.nom, p.age);
+	else
+		printf("Desole! Le nom \"%s\" ne figure pas dans le fichier.\n", nomRecherche);
+	fclose(fichier);
 	return EXIT_SUCCESS;
 }
