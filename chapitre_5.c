@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <inttypes.h>
 
 int ex5_1(void) {
 	FILE* f = fopen("../data/ex5_1.txt", "r");
@@ -113,6 +114,40 @@ int ex5_4(void) {
 		printf("%s %s, %hu ans\n", p.prenom, p.nom, p.age);
 	else
 		printf("Desole! Le nom \"%s\" ne figure pas dans le fichier.\n", nomRecherche);
+	fclose(fichier);
+	return EXIT_SUCCESS;
+}
+
+int ex5_5(void) {
+	FILE* fichier = fopen("../data/personnes.dat", "rb");
+	size_t nbEnregistrements;
+	int rang;
+
+	if (!fichier) {
+		printf("Desole! Le fichier \"personnes.dat\" n'a pas pu etre ouvert.");
+		return EXIT_FAILURE;
+	}
+	fseek(fichier, 0, SEEK_END);
+	nbEnregistrements = (size_t) ftell(fichier) / sizeof(Personne);
+	if (nbEnregistrements == 0) {
+		printf("Le fichier \"personnes.dat\" est vide.\n");
+	} else {
+		printf("Quel rang recherchez-vous ? :");
+		scanf("%d", &rang);
+		printf("Le fichier contient %" PRIuMAX " enregistrement(s).\n",
+				 (uintmax_t) nbEnregistrements);
+		if (rang <= 0 || (size_t) rang > nbEnregistrements) {
+			printf("Desole! Aucune personne ayant ce rang ne figure dans le fichier"
+					 ".\n");
+		} else {
+			Personne p;
+			// Se positionner sur l'enregistrement concerné
+			fseek(fichier, (rang - 1) * (int) sizeof(Personne), SEEK_SET);
+			fread(&p, sizeof(Personne), 1, fichier);
+			printf("La personne de rang %d est : ", rang);
+			printf("%s %s, %hu ans\n", p.prenom, p.nom, p.age);
+		}
+	}
 	fclose(fichier);
 	return EXIT_SUCCESS;
 }
