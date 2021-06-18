@@ -172,3 +172,88 @@ int ex5_7(void) {
 	fclose(f);
 	return EXIT_SUCCESS;
 }
+
+#define TAILLE_MAX_NOM_FICHIER 50
+#define TAILLE_MAX_LIGNE_FICHIER 30
+#define NB_MAX_LIGNES 100
+
+int ex5_8(int argc, char* argv[]) {
+	// Run -> Edit Configuration -> Ajouter la ligne à "Program arguments":
+	// ../data/ex5_8.input
+
+	FILE* fichier_in,
+		* fichier_out;
+
+	// Quitter si le nom du fichier à lire n'a pas été passé en paramètre
+	// de la ligne de commande
+	if (argc != 2) {
+		printf("Entrez SVP le nom du fichier a lire (max. %" PRIuMAX " caract.).\n",
+				 (uintmax_t) (TAILLE_MAX_NOM_FICHIER - 1));
+		return EXIT_FAILURE;
+	}
+
+	// Quitter si le nom du fichier à lire passé en paramètre de la ligne de
+	// commande est trop long
+	if (strlen(argv[1]) > TAILLE_MAX_NOM_FICHIER - 1) {
+		printf("Le nom du fichier est trop long."
+				 " Il doit comporter au max. %" PRIuMAX " caracteres.\n",
+				 (uintmax_t) (TAILLE_MAX_NOM_FICHIER - 1));
+		return EXIT_FAILURE;
+	}
+
+	// Quitter si la tentative d'ouverture du fichier d'input échoue.
+	fichier_in = fopen(argv[1], "r");
+	if (fichier_in == NULL) {
+		printf("Impossible d'ouvrir le fichier \"%s\".", argv[1]);
+		return EXIT_FAILURE;
+	}
+	// Construction du nom du fichier d'output
+	char nom_fichier_out[TAILLE_MAX_NOM_FICHIER + 1] = "";
+	strncpy(nom_fichier_out, argv[1], strlen(argv[1]) - strlen(".input"));
+	strcat(nom_fichier_out, ".output");
+
+	// Quitter si la tentative d'ouverture du fichier d'output échoue.
+	fichier_out = fopen(nom_fichier_out, "w");
+	if (fichier_out == NULL) {
+		printf("Impossible d'ouvrir le fichier \"%s\".", nom_fichier_out);
+		fclose(fichier_in);
+		return EXIT_FAILURE;
+	}
+
+	// "Sauter" les 2 premières lignes du fichier d'input
+	char ligne[TAILLE_MAX_LIGNE_FICHIER + 1];
+	fgets(ligne, TAILLE_MAX_LIGNE_FICHIER + 1, fichier_in);
+	fgets(ligne, TAILLE_MAX_LIGNE_FICHIER + 1, fichier_in);
+
+	// Lire et stocker les données statistiques
+	char lieux[NB_MAX_LIGNES][TAILLE_MAX_LIGNE_FICHIER + 1];
+	unsigned heures_ensoleillement[NB_MAX_LIGNES];
+	unsigned total_heures_ensoleillement = 0;
+
+	size_t i = 0;
+	while (fscanf(fichier_in, "%u %s",
+					  &heures_ensoleillement[i], &lieux[i][0]) == 2) {
+		total_heures_ensoleillement += heures_ensoleillement[i];
+		++i;
+	}
+	// Calcul du nb d'heures d'ensoleillement moyen
+	double moyenne_heures_ensoleillement = 0;
+	if (i != 0) {
+		moyenne_heures_ensoleillement = total_heures_ensoleillement / (double) i;
+	}
+
+	// Ecriture des résultats dans le fichier d'output
+	fprintf(fichier_out, "Moyenne des heures d'ensoleillement : %.1f\n\n",
+			  moyenne_heures_ensoleillement);
+	fprintf(fichier_out,
+			  "Lieux ayant plus d'heures d'ensoleillement que la moyenne :\n");
+	for (size_t j = 0; j < i; ++j) {
+		if (heures_ensoleillement[j] > moyenne_heures_ensoleillement) {
+			fprintf(fichier_out, "- %s (%u)\n", lieux[j], heures_ensoleillement[j]);
+		}
+	}
+
+	fclose(fichier_in);
+	fclose(fichier_out);
+	return EXIT_SUCCESS;
+}

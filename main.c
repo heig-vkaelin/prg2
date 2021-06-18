@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include "exercices.h"
 
-int main(void) {
-	return ex5_7();
+int main(int argc, char* argv[]) {
+//	return ex5_7();
+	return ex5_8(argc, argv);
 }

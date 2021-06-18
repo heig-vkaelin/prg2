@@ -49,5 +49,6 @@ int ex5_3(void);
 int ex5_4(void);
 int ex5_5(void);
 int ex5_7(void);
+int ex5_8(int argc, char* argv[]);
 
 #endif // PRG2_EXERCICES_H
