@@ -160,7 +160,7 @@ int ex5_7(void) {
 	}
 	fseek(f, 0, SEEK_END);
 	const size_t NB_OCTETS = (size_t) ftell(f);
-	char* buffer = (char*) calloc(NB_OCTETS, sizeof(char));
+	char* buffer = (char*) calloc(NB_OCTETS + 1, sizeof(char));
 	if (!buffer) {
 		printf("Memoire insuffisante pour creer le buffer.\n");
 		return EXIT_FAILURE;
